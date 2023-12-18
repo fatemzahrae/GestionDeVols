@@ -9,6 +9,29 @@ public class Enregistrement<T> {
 	List<Pilote> pilotes = new LinkedList<>();
 	List<Vol> vols = new LinkedList<>();
 
+    public void creerVol(int numVol, Date date, int heureDepart, double duree,
+                          String aeroportDepart, String aeroportArrivee,
+                          Avion avion, Pilote pilote, double prix)
+            throws DateVolInvalideException, PiloteNonDispoException {
+
+        if (!dateEstValide(date)) {
+            throw new DateVolInvalideException("La date du vol n'est pas valide.");
+        }
+        
+        if (!pilote.estDisponible(date, aeroportDepart)) {
+            throw new PiloteNonDispoException("Le pilote n'est pas disponible pour ce vol.");
+        }
+
+        Vol nouveauVol = new Vol(numVol, date, heureDepart, duree, aeroportDepart, aeroportArrivee, avion, pilote, prix);
+
+        vols.add(nouveauVol);
+    }
+
+	public boolean dateEstValide(Date date) {
+        Date currentDate = new Date();
+          return date.after(currentDate);
+    }
+
 	public List<Passager> getPassagers() {
 		return passagers;
 	}
