@@ -14,10 +14,9 @@ public class Passager extends Personne {
 	private int numBagage;
 	private static Set<Integer> usedBagageNumbers;
 
-    public Passager(String nom, String prenom, String nationalité, int numTel, int age, int numPass, Vol vol) {
+    public Passager(String nom, String prenom, String nationalité, int numTel, int age, int numPass) {
         super(nom, prenom, nationalité, numTel, age);
         this.numPass = numPass;
-        this.vol = vol;
 		this.bagagesSoute = new ArrayList<>();
         this.bagagesàMain = new ArrayList<>();
 		this.numBagage = currentNumBagage++;

@@ -2,6 +2,7 @@
 public class Bagages {
 	private int numBagage ;
 	private double poids ;
+
 	
 	public Bagages(int numBagage, double poids) {
 		this.numBagage = numBagage;
@@ -20,7 +21,8 @@ public class Bagages {
 	public void setPoids(double poids) {
 		this.poids = poids;
 	}
-	
+
+
 	@Override
 	public String toString() {
 		return "Bagages [numBagage=" + numBagage + ", poids=" + poids + "]";

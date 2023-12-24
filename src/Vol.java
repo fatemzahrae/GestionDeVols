@@ -6,38 +6,40 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Vol {
-	public int numVol ;
-	public Date date ;
-	public int heureDepart ;
-	public double duree ;
-	public String aeroportDepart ;
-	public String aeroportArrivee ;
-	public Avion avion ;
-	public double prix ;
+	public int numVol;
+	public Date date;
+	public int heureDepart;
+	public double duree;
+	public String aeroportDepart;
+	public String aeroportArrivee;
+	public Avion avion;
+	public double prix;
 	public Pilote pilote;
 	public List<Integer> siegesDisponibles;
 	public int NbrBagageMain;
-	
-	public Vol(int numVol, Date date, int heureDepart, double duree, String aeroportDepart, String aeroportArrivee, Avion avion, Pilote Pilote, double prix) {
-	
+	public EtatVol etat;
+
+	public Vol(int numVol, Date date, int heureDepart, double duree, String aeroportDepart, String aeroportArrivee,
+			Avion avion, Pilote Pilote, double prix) {
+
 		this.numVol = numVol;
 		this.date = date;
 		this.heureDepart = heureDepart;
 		this.duree = duree;
 		this.aeroportDepart = aeroportDepart;
 		this.aeroportArrivee = aeroportArrivee;
-		this.avion = avion ;
+		this.avion = avion;
 		this.pilote = Pilote;
-		this.prix = prix ;
-		
+		this.prix = prix;
+
 		siegesDisponibles = new ArrayList<>();
-        for (int i = 1; i <= avion.getCapacite(); i++) {
-            siegesDisponibles.add(i);
-        }
+		for (int i = 1; i <= avion.getCapacite(); i++) {
+			siegesDisponibles.add(i);
+		}
 	}
 
-	//Getters and Setters
-	
+	// Getters and Setters
+
 	public Avion getAvion() {
 		return avion;
 	}
@@ -57,36 +59,47 @@ public class Vol {
 	public int getNumVol() {
 		return numVol;
 	}
+
 	public void setNumVol(int numVol) {
 		this.numVol = numVol;
 	}
+
 	public Date getDate() {
 		return date;
 	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
 	public int getHeureDepart() {
 		return heureDepart;
 	}
+
 	public void setHeureDepart(int heureDepart) {
 		this.heureDepart = heureDepart;
 	}
+
 	public double getDuree() {
 		return duree;
 	}
+
 	public void setDuree(double duree) {
 		this.duree = duree;
 	}
+
 	public String getAeroportDepart() {
 		return aeroportDepart;
 	}
+
 	public void setAeroportDepart(String aeroportDepart) {
 		this.aeroportDepart = aeroportDepart;
 	}
+
 	public String getAeroportArrivee() {
 		return aeroportArrivee;
 	}
+
 	public void setAeroportArrivee(String aeroportArrivee) {
 		this.aeroportArrivee = aeroportArrivee;
 	}
@@ -99,38 +112,36 @@ public class Vol {
 		this.NbrBagageMain = i;
 	}
 
-	public void etatVol() {
+	public EtatVol etatVol() {
 
 		LocalDateTime now = LocalDateTime.now();
-        
-        LocalDateTime ExactTimeOfDeparture = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
-                .withHour(heureDepart)
-                .withMinute(0); // Assuming minutes are always set to 0 in heureDepart
 
-        // Calculate the exact time of arrival by adding the duration to ExactTimeOfDeparture
-        LocalDateTime ExactTimeOfArrival = ExactTimeOfDeparture.plus((long) duree, ChronoUnit.MINUTES);
+		LocalDateTime ExactTimeOfDeparture = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+				.withHour(heureDepart).withMinute(0); // Assuming minutes are always set to 0 in heureDepart
 
-        
-        if (now.isAfter(ExactTimeOfDeparture) && now.isBefore(ExactTimeOfArrival)) {
-            System.out.println("Le vol est en cours.");
-        }
-        else if (now.isAfter(ExactTimeOfArrival)) {
-            System.out.println("Le vol est terminé.");
-        }
-        else if (now.isBefore(ExactTimeOfDeparture)) {
-            System.out.println("Le vol est planifié pour l'avenir.");
-        }
-    }
+		// Calculate the exact time of arrival by adding the duration to
+		// ExactTimeOfDeparture
+		LocalDateTime ExactTimeOfArrival = ExactTimeOfDeparture.plus((long) duree, ChronoUnit.MINUTES);
+
+		if (now.isAfter(ExactTimeOfDeparture) && now.isBefore(ExactTimeOfArrival)) {
+			return EtatVol.enCours;
+		} else if (now.isAfter(ExactTimeOfArrival)) {
+			return EtatVol.terminé;
+		}
+
+		return EtatVol.planifié;
+
+	}
+
 	@Override
 	public String toString() {
 		return "Vol [numVol=" + numVol + ", date=" + date + ", heureDepart=" + heureDepart + ", duree=" + duree
 				+ ", aeroportDepart=" + aeroportDepart + ", aeroportArrivee=" + aeroportArrivee + ", avion=" + avion
-				+ "pilote="+pilote+"]";
+				+ "pilote=" + pilote + "]";
 	}
-	
+
 	public boolean estDispoSiege() {
-        return !siegesDisponibles.isEmpty();
-    }
-	
+		return !siegesDisponibles.isEmpty();
+	}
 
 }
